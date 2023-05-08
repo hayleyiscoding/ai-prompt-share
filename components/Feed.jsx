@@ -20,7 +20,6 @@ const PromptCardList = ({ data, handleTagClick }) => {
 
 const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   // Search states
   const [searchText, setSearchText] = useState("");
@@ -35,9 +34,7 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    setLoading((prevState) => !prevState);
     fetchPosts();
-    setLoading((prevState) => !prevState);
   }, []);
 
   const filterPrompts = (searchtext) => {
@@ -54,7 +51,7 @@ const Feed = () => {
     clearTimeout(searchTimeout);
     setSearchText(e.target.value);
 
-    // debounce method
+    // debounce method - access server once there is a pause in typing
     setSearchTimeout(
       setTimeout(() => {
         const searchResult = filterPrompts(e.target.value);
@@ -69,10 +66,6 @@ const Feed = () => {
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
   };
-
-  if (loading) {
-    return <div>"Loading..."</div>;
-  }
 
   return (
     <section className="feed">
