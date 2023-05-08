@@ -20,6 +20,7 @@ const PromptCardList = ({ data, handleTagClick }) => {
 
 const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Search states
   const [searchText, setSearchText] = useState("");
@@ -34,7 +35,9 @@ const Feed = () => {
   };
 
   useEffect(() => {
+    setLoading((prevState) => !prevState);
     fetchPosts();
+    setLoading((prevState) => !prevState);
   }, []);
 
   const filterPrompts = (searchtext) => {
@@ -66,6 +69,10 @@ const Feed = () => {
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
   };
+
+  if (loading) {
+    return "Loading...";
+  }
 
   return (
     <section className="feed">
